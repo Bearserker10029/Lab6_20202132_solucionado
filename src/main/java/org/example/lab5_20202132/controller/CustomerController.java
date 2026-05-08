@@ -3,6 +3,7 @@ package org.example.lab5_20202132.controller;
 import jakarta.validation.Valid;
 import org.example.lab5_20202132.model.Customer;
 import org.example.lab5_20202132.repository.CustomerRepository;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -30,14 +31,13 @@ public class CustomerController {
 
         model.addAttribute("employeeList", customerRepository.findAll());
 
-        return "list";
+        return "customer/list";
     }
 
     @GetMapping("/new")
     public String nuevoEmpleadoFrm(Model model) {
         model.addAttribute("employee", new Customer());
-        model.addAttribute("document_type");
-        return "newFrm";
+        return "customer/form";
     }
 
     @PostMapping("/save")
@@ -45,20 +45,7 @@ public class CustomerController {
                                        BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("employee", customer);
-            model.addAttribute("document_type");
-            if(customer.getId()>0){
-                return "editFrm";
-            }
-            return "newFrm";
-        }
-        Customer customerexiste = null;
-        if(customer.getId()>0){
-            customerexiste = customerRepository.findById(customer.getId()).orElse(null);
-        }
-        if(customerexiste!=null){
-            customerexiste.setDocument(customer.getDocument());
-            customerexiste.setName(customer.getName());
-            customerexiste.setDocumentType(customer.getDocumentType());
+            return "customer/form";
         }
         if (customer.getDocumentType().equals("DNI")){
             if(customer.getDocument().length()!=8){
@@ -69,11 +56,32 @@ public class CustomerController {
                 bindingResult.rejectValue("documentType", "documentType.documentType", "El documento debe ser igual a 11 caracteres");
             }
         }
-        customerRepository.save(customer);
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("employee", customer);
+            return "customer/form";
+        }
+        Customer customerexiste = null;
+        if(customer.getId() != null && customer.getId() > 0){
+            customerexiste = customerRepository.findById(customer.getId()).orElse(null);
+        }
+        try {
+            if (customerexiste != null) {
+                customerexiste.setDocument(customer.getDocument());
+                customerexiste.setName(customer.getName());
+                customerexiste.setDocumentType(customer.getDocumentType());
+                customerRepository.save(customerexiste);
+            } else {
+                customerRepository.save(customer);
+            }
+        } catch (DataIntegrityViolationException e) {
+            bindingResult.rejectValue("document", "document.duplicate", "Este número de documento ya está registrado");
+            model.addAttribute("employee", customer);
+            return "customer/form";
+        }
         redirectAttributes.addFlashAttribute("message", "Se ha registrado correctamente");
 
 
-    return "redirect:/";
+    return "redirect:/cliente";
     }
 
     @GetMapping("/edit/{id}")
@@ -85,7 +93,7 @@ public class CustomerController {
             Customer employee = optEmployee.get();
             model.addAttribute("employee", employee);
             redirectAttributes.addFlashAttribute("msg","Empleado actualizado correctamente");
-            return "editFrm";
+            return "customer/form";
         } else {
             return "redirect:/list";
         }

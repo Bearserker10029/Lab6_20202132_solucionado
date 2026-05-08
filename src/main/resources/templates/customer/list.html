@@ -20,12 +20,12 @@
                     <tr th:each="employee, info : ${employeeList}">
                         <td th:text="${employee.name}"></td>
                         <td th:text="${employee.document}"></td>
-                        <td th:text="${employee.document_type}"></td>
+                        <td th:text="${employee.documentType}"></td>
                         <td><a class="btn btn-primary"
-                               th:href="@{/employee/edit/{id}(id=${employee.id})}">Editar</a>
+                               th:href="@{/edit/{id}(id=${employee.id})}">Editar</a>
                         </td>
                         <td><a class="btn btn-danger"
-                               th:href="@{/employee/delete/{id}(id=${employee.id})}">Borrar</a>
+                               th:href="@{/delete/{id}(id=${employee.id})}">Borrar</a>
                         </td>
                     </tr>
                     </tbody>
