@@ -1,6 +1,7 @@
 package org.example.lab5_20202132.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,18 +18,18 @@ public class InvoiceDetail {
     @Column(name = "id", nullable = false)
     private Integer id;
 
-    @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "invoice_id", nullable = false)
+    @NotNull
     private Invoice invoice;
 
-    @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "product_id", nullable = false)
+    @NotNull
     private Product product;
 
-    @NotNull
+    @Min(value = 1, message = "La cantidad debe ser mayor a 0")
     @Column(name = "quantity", nullable = false)
     private Integer quantity;
 
