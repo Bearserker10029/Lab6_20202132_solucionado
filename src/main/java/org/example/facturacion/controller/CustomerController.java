@@ -1,8 +1,8 @@
-package org.example.lab5_20202132.controller;
+package org.example.facturacion.controller;
 
 import jakarta.validation.Valid;
-import org.example.lab5_20202132.model.Customer;
-import org.example.lab5_20202132.repository.CustomerRepository;
+import org.example.facturacion.model.Customer;
+import org.example.facturacion.repository.CustomerRepository;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -97,6 +97,22 @@ public class CustomerController {
         } else {
             return "redirect:/list";
         }
+    }
+
+    @GetMapping("/delete")
+    public String borrarCliente(@RequestParam("id") int id, RedirectAttributes attr) {
+        Optional<Customer> optCustomer = customerRepository.findById(id);
+
+        if (optCustomer.isPresent()) {
+            try {
+                customerRepository.deleteById(id);
+                attr.addFlashAttribute("msg", "Cliente borrado exitosamente");
+            } catch (DataIntegrityViolationException e) {
+                attr.addFlashAttribute("msg",
+                        "No se puede borrar el cliente porque tiene comprobantes asociados");
+            }
+        }
+        return "redirect:/cliente";
     }
 }
 

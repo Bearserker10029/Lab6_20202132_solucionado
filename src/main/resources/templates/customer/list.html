@@ -7,6 +7,7 @@
             <div class="container px-4 pb-5">
                 <nav th:replace="~{fragments/navbar.html :: navbar( active = 'Employee')}"></nav>
                 <h1 class="pb-2 border-bottom">Sistema de Facturación Electrónica</h1>
+                <div th:if="${msg}" th:text="${msg}" class="alert alert-success" role="alert"></div>
                 <a class="btn btn-primary mb-4" th:href="@{/new}">Nuevo cliente</a>
                 <table class="table table-sm table-striped align-middle">
                     <thead>
@@ -25,7 +26,7 @@
                                th:href="@{/edit/{id}(id=${employee.id})}">Editar</a>
                         </td>
                         <td><a class="btn btn-danger"
-                               th:href="@{/delete/{id}(id=${employee.id})}">Borrar</a>
+                               th:href="@{'/delete' + '?id=' + ${employee.id}}">Borrar</a>
                         </td>
                     </tr>
                     </tbody>

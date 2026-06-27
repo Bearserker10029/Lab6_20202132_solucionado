@@ -1,6 +1,6 @@
-package org.example.lab5_20202132.repository;
+package org.example.facturacion.repository;
 
-import org.example.lab5_20202132.model.Product;
+import org.example.facturacion.model.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

@@ -1,7 +1,7 @@
-package org.example.lab5_20202132.repository;
+package org.example.facturacion.repository;
 
-import org.example.lab5_20202132.dto.InvoiceDetailDTO;
-import org.example.lab5_20202132.model.InvoiceDetail;
+import org.example.facturacion.dto.InvoiceDetailDTO;
+import org.example.facturacion.model.InvoiceDetail;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -25,4 +25,6 @@ public interface InvoiceDetailRepository extends JpaRepository<InvoiceDetail, In
         order by p.name
         """)
     List<InvoiceDetailDTO> findAvailableProducts();
+
+    List<InvoiceDetail> findByInvoiceId(Integer invoiceId);
 }

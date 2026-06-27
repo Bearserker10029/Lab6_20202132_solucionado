@@ -1,4 +1,4 @@
-package org.example.lab5_20202132.dto;
+package org.example.facturacion.dto;
 
 import java.time.LocalDate;
 

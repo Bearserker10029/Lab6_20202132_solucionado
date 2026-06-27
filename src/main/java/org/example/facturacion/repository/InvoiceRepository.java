@@ -1,7 +1,7 @@
-package org.example.lab5_20202132.repository;
+package org.example.facturacion.repository;
 
-import org.example.lab5_20202132.dto.InvoiceDto;
-import org.example.lab5_20202132.model.Invoice;
+import org.example.facturacion.dto.InvoiceDto;
+import org.example.facturacion.model.Invoice;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

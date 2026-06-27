@@ -1,4 +1,4 @@
-package org.example.lab5_20202132.model;
+package org.example.facturacion.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;

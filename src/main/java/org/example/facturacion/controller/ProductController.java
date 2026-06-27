@@ -1,8 +1,8 @@
-package org.example.lab5_20202132.controller;
+package org.example.facturacion.controller;
 
 import jakarta.validation.Valid;
-import org.example.lab5_20202132.model.Product;
-import org.example.lab5_20202132.repository.ProductRepository;
+import org.example.facturacion.model.Product;
+import org.example.facturacion.repository.ProductRepository;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -74,5 +74,21 @@ public class ProductController {
         } else {
             return "redirect:/producto";
         }
+    }
+
+    @GetMapping("/producto/delete")
+    public String borrarProducto(@RequestParam("id") int id, RedirectAttributes attr) {
+        Optional<Product> optProduct = productRepository.findById(id);
+
+        if (optProduct.isPresent()) {
+            try {
+                productRepository.deleteById(id);
+                attr.addFlashAttribute("msg", "Producto borrado exitosamente");
+            } catch (DataIntegrityViolationException e) {
+                attr.addFlashAttribute("msg",
+                        "No se puede borrar el producto porque está usado en comprobantes");
+            }
+        }
+        return "redirect:/producto";
     }
 }

@@ -1,14 +1,14 @@
-package org.example.lab5_20202132.controller;
+package org.example.facturacion.controller;
 
 import jakarta.validation.Valid;
-import org.example.lab5_20202132.model.Customer;
-import org.example.lab5_20202132.model.Invoice;
-import org.example.lab5_20202132.model.InvoiceDetail;
-import org.example.lab5_20202132.model.Product;
-import org.example.lab5_20202132.repository.CustomerRepository;
-import org.example.lab5_20202132.repository.InvoiceDetailRepository;
-import org.example.lab5_20202132.repository.InvoiceRepository;
-import org.example.lab5_20202132.repository.ProductRepository;
+import org.example.facturacion.model.Customer;
+import org.example.facturacion.model.Invoice;
+import org.example.facturacion.model.InvoiceDetail;
+import org.example.facturacion.model.Product;
+import org.example.facturacion.repository.CustomerRepository;
+import org.example.facturacion.repository.InvoiceDetailRepository;
+import org.example.facturacion.repository.InvoiceRepository;
+import org.example.facturacion.repository.ProductRepository;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -182,6 +182,20 @@ public class InvoiceController {
         }
 
         redirectAttributes.addFlashAttribute("message", "Se ha registrado correctamente");
+        return "redirect:/comprobante";
+    }
+
+    @GetMapping("/delete")
+    public String borrarComprobante(@RequestParam("id") int id, RedirectAttributes attr) {
+        Optional<Invoice> optInvoice = invoiceRepository.findById(id);
+
+        if (optInvoice.isPresent()) {
+            // Borrar primero los detalles del comprobante
+            List<InvoiceDetail> detalles = invoiceDetailRepository.findByInvoiceId(id);
+            invoiceDetailRepository.deleteAll(detalles);
+            invoiceRepository.deleteById(id);
+            attr.addFlashAttribute("msg", "Comprobante borrado exitosamente");
+        }
         return "redirect:/comprobante";
     }
 }

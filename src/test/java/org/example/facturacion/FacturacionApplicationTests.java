@@ -1,10 +1,10 @@
-package org.example.lab5_20202132;
+package org.example.facturacion;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class Lab520202132ApplicationTests {
+class FacturacionApplicationTests {
 
     @Test
     void contextLoads() {
