@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="~{fragments/navbar.html :: header( title = 'Empleados')}"></head>
+    <body>
+        <div class="container">
+            <nav th:replace="~{fragments/navbar.html :: navbar( active = 'Employee')}"></nav>
+            <div class="row mb-4">
+                <div class="col-md-6 offset-md-3">
+                    <h2 th:text="${employee.id == null ? 'Nuevo Empleado' : 'Editar Empleado'}"></h2>
+                    <hr/>
+                    <form th:action="@{'/save'}" method="post" th:object="${employee}">
+                        <input th:field="*{id}" type="hidden"/>
+
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Nombre</label>
+                            <input type="text" class="form-control" th:field="*{name}" id="name"/>
+                            <div class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="documentType" class="form-label">Tipo de documento</label>
+                            <select class="form-control" id="documentType" th:field="*{documentType}">
+                                <option value="" disabled>Seleccione...</option>
+                                <option value="DNI">DNI</option>
+                                <option value="RUC">RUC</option>
+                            </select>
+                            <div class="text-danger" th:if="${#fields.hasErrors('documentType')}" th:errors="*{documentType}"></div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="document" class="form-label">Número de documento</label>
+                            <input type="number" class="form-control" th:field="*{document}" id="document"/>
+                            <div class="text-danger" th:if="${#fields.hasErrors('document')}" th:errors="*{document}"></div>
+                        </div>
+
+                        <a th:href="@{'/cliente'}" class="btn btn-danger">Cancelar</a>
+                        <button type="submit" class="btn btn-primary" th:text="${employee.id == null ? 'Registrar' : 'Actualizar'}"></button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <script th:replace="~{fragments/navbar.html :: footer-bootstrap}"></script>
+    </body>
+</html>

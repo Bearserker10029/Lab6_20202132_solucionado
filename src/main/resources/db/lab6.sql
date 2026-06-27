@@ -1,0 +1,52 @@
+CREATE DATABASE IF NOT EXISTS lab6; 
+USE lab6; 
+ 
+DROP TABLE IF EXISTS invoice_detail; 
+DROP TABLE IF EXISTS invoice; 
+DROP TABLE IF EXISTS product; 
+DROP TABLE IF EXISTS customer; 
+ 
+CREATE TABLE customer ( 
+    id INT PRIMARY KEY AUTO_INCREMENT, 
+    name VARCHAR(100) NOT NULL, 
+    document VARCHAR(11) NOT NULL UNIQUE, 
+    document_type VARCHAR(10) NOT NULL 
+); 
+CREATE TABLE product ( 
+    id INT PRIMARY KEY AUTO_INCREMENT, 
+    name VARCHAR(100) NOT NULL UNIQUE, 
+    price DOUBLE NOT NULL, 
+    stock INT NOT NULL 
+); 
+ 
+CREATE TABLE invoice ( 
+    id INT PRIMARY KEY AUTO_INCREMENT, 
+    type VARCHAR(10) NOT NULL, 
+    date DATE NOT NULL, 
+    customer_id INT NOT NULL, 
+    CREATE DATABASE IF NOT EXISTS lab6; 
+USE lab6; 
+ 
+DROP TABLE IF EXISTS invoice_detail; 
+DROP TABLE IF EXISTS invoice; 
+DROP TABLE IF EXISTS product; 
+DROP TABLE IF EXISTS customer; 
+ 
+CREATE TABLE customer ( 
+    id INT PRIMARY KEY AUTO_INCREMENT, 
+    name VARCHAR(100) NOT NULL, 
+    document VARCHAR(11) NOT NULL UNIQUE, 
+    document_type VARCHAR(10) NOT NULL 
+); 
+CREATE TABLE product ( 
+    id INT PRIMARY KEY AUTO_INCREMENT, 
+    name VARCHAR(100) NOT NULL UNIQUE, 
+    price DOUBLE NOT NULL, 
+    stock INT NOT NULL 
+); 
+ 
+CREATE TABLE invoice ( 
+    id INT PRIMARY KEY AUTO_INCREMENT, 
+    type VARCHAR(10) NOT NULL, 
+    date DATE NOT NULL, 
+    customer_id INT NOT NULL, 

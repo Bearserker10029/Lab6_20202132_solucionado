@@ -1,4 +1,4 @@
-package org.example.lab5_20202132;
+package org.example.facturacion;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="~{fragments/navbar.html :: header( title = 'Comprobantes')}"></head>
+    <body>
+        <div class="container">
+            <nav th:replace="~{fragments/navbar.html :: navbar( active = 'Invoice')}"></nav>
+            <div class="row mb-4">
+                <div class="col-md-8 offset-md-2">
+                    <h2>Nuevo Comprobante</h2>
+                    <hr/>
+                    <form th:action="@{'/comprobante/save'}" method="post" th:object="${invoice}">
+                        <div th:if="${#fields.hasGlobalErrors()}" class="alert alert-danger">
+                            <div th:each="err : ${#fields.globalErrors()}" th:text="${err}"></div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="type" class="form-label">Tipo de Comprobante</label>
+                                <select class="form-control" id="type" th:field="*{type}">
+                                    <option value="" selected>Seleccionar</option>
+                                    <option value="BOLETA">Boleta</option>
+                                    <option value="FACTURA">Factura</option>
+                                </select>
+                                <div class="text-danger" th:if="${#fields.hasErrors('type')}" th:errors="*{type}"></div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="customerId" class="form-label">Cliente</label>
+                                <select class="form-control" id="customerId" th:field="*{customer.id}">
+                                    <option value="" selected>Seleccionar</option>
+                                    <option th:each="customer : ${customerList}"
+                                            th:value="${customer.id}"
+                                            th:text="${customer.name} + ' - ' + ${customer.documentType} + ': ' + ${customer.document}"></option>
+                                </select>
+                                <div class="text-danger" th:if="${#fields.hasErrors('customer')}" th:errors="*{customer}"></div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="date" class="form-label">Fecha</label>
+                                <input type="date" class="form-control" id="date" name="date"
+                                       th:field="*{date}"/>
+                                <div class="text-danger" th:if="${#fields.hasErrors('date')}" th:errors="*{date}"></div>
+                            </div>
+                        </div>
+
+                        <h4 class="mt-4">Productos</h4>
+                        <table class="table table-sm table-striped">
+                            <thead>
+                            <tr>
+                                <th></th>
+                                <th>Producto</th>
+                                <th>Precio</th>
+                                <th>Stock</th>
+                                <th>Cantidad</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="prod : ${invoiceDetailList}">
+                                <td>
+                                    <input type="hidden" name="productIds" th:value="${prod.id}"/>
+                                </td>
+                                <td th:text="${prod.producto}"></td>
+                                <td th:text="${prod.precio}"></td>
+                                <td th:text="${prod.stock}"></td>
+                                <td>
+                                    <input type="number" class="form-control"
+                                           name="quantities" value="0" min="0" max="9999"/>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+
+                        <a th:href="@{'/comprobante'}" class="btn btn-danger">Cancelar</a>
+                        <button type="submit" class="btn btn-primary">Registrar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <script th:replace="~{fragments/navbar.html :: footer-bootstrap}"></script>
+    </body>
+</html>

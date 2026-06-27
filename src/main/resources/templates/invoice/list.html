@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/navbar.html :: header}"></head>
+
+<body>
+    <main>
+        <div class="container px-4 pb-5">
+            <nav th:replace="~{fragments/navbar.html :: navbar( active = 'Invoice')}"></nav>
+            <h1 class="pb-2 border-bottom">Comprobantes</h1>
+            <div th:if="${message}" class="alert alert-info" th:text="${message}"></div>
+            <div th:if="${msg}" th:text="${msg}" class="alert alert-success" role="alert"></div>
+            <a class="btn btn-primary mb-4" th:href="@{/comprobante/new}" >Nuevo comprobante</a>
+            <table class="table table-sm table-striped align-middle">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Fecha</th>
+                    <th>Cliente</th>
+                    <th>Tipo</th>
+                    <th>Total</th>
+                    <th>Acciones</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="invoice : ${invoiceList}">
+                    <td th:text="${invoice.id}"></td>
+                    <td th:text="${invoice.fecha}"></td>
+                    <td th:text="${invoice.nombre}"></td>
+                    <td th:text="${invoice.tipo}"></td>
+                    <td th:text="${invoice.total}"></td>
+                    <td><a class="btn btn-danger"
+                           th:href="@{'/comprobante/delete' + '?id=' + ${invoice.id}}">Borrar</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+</body>
+</html>
